@@ -1,0 +1,19 @@
+.json-warning {
+	color : red;
+}
+
+pre {
+	padding : 0;
+	border : none;
+	max-height : 400px;
+	margin : 0;
+}
+
+textarea {
+	height: 400px!important;
+ 	resize: none;
+}
+
+.well {
+	padding : 0;
+}

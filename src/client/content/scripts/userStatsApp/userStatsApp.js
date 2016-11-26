@@ -5,7 +5,8 @@
 	.config(function($routeProvider){
 $routeProvider.when('/', {
 	templateUrl : 'partials/upload',
-	controller : ''
+	controller : 'uploadController',
+	controllerAs : 'uploadCtrl'
 })
 	})
 })();
