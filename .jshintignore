@@ -1,0 +1,2 @@
+/*We need this entry so that jshint doesn't try to process all the thirdparty js libs that we use that may have problems.*/
+src/client/content/scripts/thirdparty/
