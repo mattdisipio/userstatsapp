@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 
-	function uploadController($scope){
+	function uploadController($scope, userStatsAppService, $location){
 		var _this = this;
 	 	this.vm = {
 	 		jsonInput : '',
@@ -17,8 +17,14 @@
     				_this.vm.isValidJson = false;
     		};
 		}
+
+		this.processJson = function(){
+			userStatsAppService.processJsonData(_this.vm.actualJson);
+			$location.path('/results');
+		}
+
 	}
 
-	angular.module('userStatsApp.controllers', [])
-	.controller('uploadController', ['$scope', uploadController])
+	angular.module('userStatsApp.uploadController', [])
+	.controller('uploadController', ['$scope', 'userStatsAppService', '$location', uploadController])
 })();
