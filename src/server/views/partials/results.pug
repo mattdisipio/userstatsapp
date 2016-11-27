@@ -1,0 +1,29 @@
+block content
+	div.row
+		div.col-lg-6.col-md-6.col-sm-6.form-group
+			div.panel.panel-default
+				div.panel-heading % Female vs Male
+				div.panel-body
+					canvas.chart.chart-doughnut(style="height:400px",chart-data="resultsCtrl.data", chart-options="resultsCtrl.options", chart-labels="resultsCtrl.vm.genderLabels", chart-colors="resultsCtrl.vm.genderColors")
+		div.col-lg-6.col-md-6.col-sm-6.form-group
+			div.panel.panel-default
+				div.panel-heading % First Name Start With A-M
+				div.panel-body
+					canvas.chart.chart-doughnut(style="height:400px",chart-data="resultsCtrl.data", chart-options="resultsCtrl.options", chart-labels="resultsCtrl.labels", chart-colors="resultsCtrl.colors")
+	div.row
+		div.col-lg-6.col-md-6.col-sm-6.form-group
+			div.panel.panel-default
+				div.panel-heading % Last Names Start With A-M
+				div.panel-body
+					canvas.chart.chart-doughnut(style="height:400px",chart-data="resultsCtrl.data", chart-options="resultsCtrl.options", chart-labels="resultsCtrl.labels", chart-colors="resultsCtrl.colors")
+		div.col-lg-6.col-md-6.col-sm-6.form-group
+			div.panel.panel-default
+				div.panel-heading % Age Groups
+				div.panel-body
+					canvas.chart.chart-bar(style="height:400px!important", chart-data="resultsCtrl.vm.ageData", chart-labels="resultsCtrl.vm.ageLabels", chart-series="restulsCtrl.vm.ageSeries")
+	div.row
+		div.col-lg-12.form-group
+			div.panel.panel-default
+				div.panel-heading Stats For Top 10 Most Populous States
+				div.panel-body
+					canvas.chart.chart-bar(style="height:400px!important", chart-data="resultsCtrl.barData", chart-labels="resultsCtrl.barLabels", chart-series="restulsCtrl.barSeries")
