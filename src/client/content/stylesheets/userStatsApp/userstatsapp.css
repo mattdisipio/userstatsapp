@@ -17,3 +17,7 @@ textarea {
 .well {
 	padding : 0;
 }
+
+.modal-header {
+	border-bottom: none;
+}

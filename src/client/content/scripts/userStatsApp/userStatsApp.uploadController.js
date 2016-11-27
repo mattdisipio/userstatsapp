@@ -1,7 +1,7 @@
 (function(){
 	'use strict';
 
-	function uploadController($scope, userStatsAppService, $location){
+	function uploadController($scope, userStatsAppService, $location, $uibModal){
 		var _this = this;
 	 	this.vm = {
 	 		jsonInput : '',
@@ -19,12 +19,18 @@
 		}
 
 		this.processJson = function(){
-			userStatsAppService.processJsonData(_this.vm.actualJson);
-			$location.path('/results');
+			 $uibModal.open({
+                templateUrl: '/partials/processing',
+                controller: '',
+                backdrop: 'static'
+            });
+			userStatsAppService.processJsonData(_this.vm.actualJson).then(function(){
+				$location.path('/results');
+			});
 		}
 
 	}
 
 	angular.module('userStatsApp.uploadController', [])
-	.controller('uploadController', ['$scope', 'userStatsAppService', '$location', uploadController])
+	.controller('uploadController', ['$scope', 'userStatsAppService', '$location', '$uibModal', uploadController])
 })();
