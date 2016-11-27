@@ -19,11 +19,13 @@
 		}
 
 		this.processJson = function(){
-			 $uibModal.open({
+			/** $uibModal.open({
                 templateUrl: '/partials/processing',
                 controller: '',
                 backdrop: 'static'
             });
+            **/
+
 			userStatsAppService.processJsonData(_this.vm.actualJson).then(function(){
 				$location.path('/results');
 			});
