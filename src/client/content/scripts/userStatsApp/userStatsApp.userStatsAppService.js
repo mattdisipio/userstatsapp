@@ -21,6 +21,8 @@
 			genderDataPoints : [],
 			firstNameDataPoints : [],
 			lastNameDataPoints : [],
+			populationByStateLabels : [],
+			populationByStateDataPoints : [[], [], []],
 			ageGroupStats : {
 				zeroToTwenty : 0,
 				twentyOneToForty : 0,
@@ -29,18 +31,57 @@
 				eightyOneToOneHundred : 0,
 				oneHundredPlus : 0
 			},
-			hashTable : {}
+			statesDataObject : []
 		}
 
 		var generateDataPoints = function(){
-			_this.vm.genderDataPoints = [(_this.vm.numFemale / _this.vm.totalPopulation) * 100, (1 - ((_this.vm.numFemale / _this.vm.totalPopulation))) * 100]
-			_this.vm.firstNameDataPoints = [(_this.vm.firstNameAToM / _this.vm.totalPopulation) * 100, (1 - (_this.vm.firstNameAToM/ _this.vm.totalPopulation)) * 100]
-			_this.vm.lastNameDataPoints = [(_this.vm.lastNameAToM / _this.vm.totalPopulation) * 100, (1 - (_this.vm.lastNameAToM / _this.vm.totalPopulation)) * 100]
+			var deferred = $q.defer();
+			var numFemale = Math.round((_this.vm.numFemale / _this.vm.totalPopulation) * 100);
+			_this.vm.genderDataPoints = [numFemale, 100 - numFemale]
+
+			var firstNameStartsWith = Math.round((_this.vm.firstNameAToM / _this.vm.totalPopulation) * 100);
+			_this.vm.firstNameDataPoints = [firstNameStartsWith, (100 - firstNameStartsWith)]
+
+			var lastNameStartsWith = Math.round((_this.vm.lastNameAToM / _this.vm.totalPopulation) * 100)
+			_this.vm.lastNameDataPoints = [lastNameStartsWith, (100 - lastNameStartsWith)]
+
 			_this.vm.ageGroupDataPoints = [((_this.vm.ageGroupStats.zeroToTwenty / _this.vm.totalPopulation) * 100), 
 			((_this.vm.ageGroupStats.twentyOneToForty/_this.vm.totalPopulation) * 100),
 			((_this.vm.ageGroupStats.fortyOneToSixty / _this.vm.totalPopulation) * 100) , ((_this.vm.ageGroupStats.sixtyOneToEighty / _this.vm.totalPopulation) * 100),
 			((_this.vm.ageGroupStats.eightyOneToOneHundred / _this.vm.totalPopulation) * 100), ((_this.vm.ageGroupStats.oneHundredPlus / _this.vm.totalPopulation) * 100)]
 
+			var topPopulationStates = _this.vm.statesDataObject.slice(0, 10);
+
+			_this.vm.populationByStateLabels = topPopulationStates.map(function(element){
+				return element.stateName;
+			})
+
+			topPopulationStates.forEach(function(element){
+				var percentageOfTotalPopulation = (element.population/_this.vm.totalPopulation) * 100;
+				var percentageOfFemales = (element.females/element.population) * 100;
+				var percentageOfMales = 100 - percentageOfFemales;
+				_this.vm.populationByStateDataPoints[0].push(percentageOfTotalPopulation);
+				_this.vm.populationByStateDataPoints[1].push(percentageOfFemales);
+				_this.vm.populationByStateDataPoints[2].push(percentageOfMales);
+			})
+
+			deferred.resolve();
+
+			return deferred.promise;
+		}
+
+		var compare = function(stateOne, stateTwo) {
+			  if (stateOne.population < stateTwo.population)
+			    return 1;
+			  if (stateOne.population > stateTwo.population)
+			    return -1;
+			  return 0;
+			}
+
+		var getStateObject = function(stateName){
+			return function(element){
+				return element.stateName === stateName;
+			}
 		}
 
 		this.processJsonData = function(jsonData){
@@ -55,16 +96,18 @@
 					_this.vm.lastNameAToM ++;
 				}
 
-				if(!_this.vm.hashTable[element.location.state]){
+				var temp = _this.vm.statesDataObject.filter(getStateObject(element.location.state))
+				if(!temp.length > 0){
 					var stateObj = {
 						females : 0,
-						population : 0 
+						population : 0,
+						stateName : element.location.state
 					}
 
-					_this.vm.hashTable[element.location.state] = stateObj;
+					_this.vm.statesDataObject.push(stateObj);
 				}
 
-				var currentStateObj = _this.vm.hashTable[element.location.state];
+				var currentStateObj = _this.vm.statesDataObject.filter(getStateObject(element.location.state))[0];
 				if(element.gender === 'female'){
 					currentStateObj.females ++;
 					_this.vm.numFemale ++;
@@ -96,9 +139,11 @@
 				_this.vm.totalPopulation ++;
 			})
 
-			generateDataPoints();
-			
-			deferred.resolve();
+			_this.vm.statesDataObject.sort(compare)
+
+			generateDataPoints().then(function(){
+				deferred.resolve();
+			});			
 
 			return deferred.promise;
 		}
