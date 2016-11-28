@@ -11,7 +11,7 @@
 	    return Math.abs(ageDate.getUTCFullYear() - 1970);
 	}
 
-	function userStatsAppService($q, userStatsAppDataService){
+	function userStatsAppService($q){
 		var _this = this;
 		this.vm = {
 			numFemale : 0,
@@ -150,5 +150,5 @@
 	}
 
 	angular.module('userStatsApp.userStatsAppService', [])
-	.service('userStatsAppService', ['$q', 'userStatsAppDataService', userStatsAppService])
+	.service('userStatsAppService', ['$q', userStatsAppService])
 })();
