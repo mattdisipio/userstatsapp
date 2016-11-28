@@ -3,7 +3,7 @@
  * This will make refactoring in the future far easier if we set it up now.
  */
 global.rootRequire = function(name) {
-    return require(__dirname + '\\' + name);
+    return require(__dirname + '/' + name);
 };
 
 
