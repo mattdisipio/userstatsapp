@@ -18,6 +18,21 @@
     		};
 		}
 
+		this.processFile = function($event){
+			var file = $event.target.files[0];
+			if(file){
+			   	var r = new FileReader();
+				r.onload = function(e) {
+					$scope.$apply(function(){
+				  		_this.vm.jsonInput = e.target.result;
+				  		_this.change();
+					})
+				};
+
+	          	r.readAsText(file);
+			}
+		}
+
 		this.processJson = function(){
 			/** $uibModal.open({
                 templateUrl: '/partials/processing',
