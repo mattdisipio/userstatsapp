@@ -8,7 +8,7 @@ block content
 					input(type="file", name="displayImage", custom-on-change="uploadCtrl.processFile", accept=".json")
 		div.row
 			div.col-lg-6.col-md-6.col-sm-6.form-group( ng-class="{ 'has-error' : !uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput, 'has-success' : uploadCtrl.vm.isValidJson }")
-				textarea.form-control(ng-model="uploadCtrl.vm.jsonInput", required, ng-change="uploadCtrl.change()")
+				textarea.form-control(ng-model="uploadCtrl.vm.jsonInput", ng-model-options="{ debounce: 500 }", required, ng-change="uploadCtrl.change()", autocomplete="off", autocorrect="off", spellcheck="false")
 				div(style="position:absolute;top:0;right:20px;", ng-if="!uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput")
 					em.json-warning
 						| Please enter valid json
