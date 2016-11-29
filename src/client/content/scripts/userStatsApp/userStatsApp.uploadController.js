@@ -58,10 +58,6 @@
 		* Displays a modal while charts are being generated.
 		**/
 		this.processJson = function(){
-			if(!_this.vm.actualJson.results || _this.vm.actualJson.results.length === 0 || !_this.vm.actualJson.results[0].firstName || !_this.vm.actualJson[0].lastName || !_this.vm.actualJson[0].dob || !_this.vm.actualJson[0].location.state){
-				toaster.pop('error', 'Can\'t Process Data. Most Likely Due To Malformed Json');
-				return;
-			}
 			$uibModal.open({
                 templateUrl: '/partials/processing',
                 backdrop: 'static',
