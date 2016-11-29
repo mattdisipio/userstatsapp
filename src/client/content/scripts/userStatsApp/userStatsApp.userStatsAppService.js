@@ -117,6 +117,28 @@
 			};
 		};
 
+		var setAgeData = function(dob){
+			var age = calculateAge(dob);
+			if(age <= 20){
+					_this.vm.ageGroupStats.zeroToTwenty ++;
+				}
+			else if(age >= 21 && age <= 40){
+				_this.vm.ageGroupStats.twentyOneToForty ++;
+			}
+			else if(age >= 41 && age <= 60){
+				_this.vm.ageGroupStats.fortyOneToSixty ++;
+			}
+			else if(age >= 61 && age <= 80){
+				_this.vm.ageGroupStats.sixtyOneToEighty ++;
+			}
+			else if(age >= 81 && age <= 100){
+					_this.vm.ageGroupStats.eightyOneToOneHundred ++;					
+			}
+			else{
+				_this.vm.ageGroupStats.oneHundredPlus ++;						
+			}
+		};
+
 		/**
 		* Resets all data on the vm.
 		**/
@@ -194,25 +216,7 @@
 					return deferred.reject({message : 'Missing birthday.'});
 				}
 
-				var age = calculateAge(element.dob);
-				if(age <= 20){
-						_this.vm.ageGroupStats.zeroToTwenty ++;
-					}
-				else if(age >= 21 && age <= 40){
-					_this.vm.ageGroupStats.twentyOneToForty ++;
-				}
-				else if(age >= 41 && age <= 60){
-					_this.vm.ageGroupStats.fortyOneToSixty ++;
-				}
-				else if(age >= 61 && age <= 80){
-					_this.vm.ageGroupStats.sixtyOneToEighty ++;
-				}
-				else if(age >= 81 && age <= 100){
-						_this.vm.ageGroupStats.eightyOneToOneHundred ++;					
-				}
-				else{
-					_this.vm.ageGroupStats.oneHundredPlus ++;						
-				}
+				setAgeData(element.dob);				
 
 				_this.vm.totalPopulation ++;
 			});
