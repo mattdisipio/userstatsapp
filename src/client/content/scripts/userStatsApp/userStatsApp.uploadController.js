@@ -25,7 +25,9 @@
 		this.change = function(){
 			 try {
         			_this.vm.actualJson = JSON.parse(_this.vm.jsonInput);
-        			_this.vm.isValidJson = true;
+        			if(!Object.keys(_this.vm.actualJson).length == 0){
+          				_this.vm.isValidJson = true;
+        			}
     			} catch(exp) {
     				_this.vm.isValidJson = false;
     		};
