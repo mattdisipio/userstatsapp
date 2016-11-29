@@ -30,6 +30,7 @@
         			}
     			} catch(exp) {
     				_this.vm.isValidJson = false;
+    				_this.vm.actualJson = '';
     		};
 		}
 
