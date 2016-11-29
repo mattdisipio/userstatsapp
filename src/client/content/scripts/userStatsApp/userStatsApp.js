@@ -1,6 +1,8 @@
 (function(){
 	'use strict';
-
+	/**
+	 * Entry point for user stats angular app.
+	 */
 	angular.module('userStatsApp', ['userStatsApp.uploadController', 'userStatsApp.resultsController', 'userStatsApp.processingController', 'userStatsApp.userStatsAppService', 'ui.bootstrap', 'ngRoute', 'chart.js', 'customOnChange'])
 	.config(function($routeProvider){
 		$routeProvider.when('/', {

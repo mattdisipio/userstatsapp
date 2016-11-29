@@ -1,6 +1,10 @@
 (function(){
 	'use strict';
 
+	/**
+	 * Controller used mainly as a holder for the graph data
+	 * @param userStatsAppService - Singleton service responsible for manipulating data.
+	 */
 	function resultsController(userStatsAppService){
 		this.vm = {
 			genderLabels : ['Female', 'Male'],

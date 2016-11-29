@@ -1,6 +1,13 @@
 (function(){
 	'use strict';
 
+	/**
+	 * Used on page load. This controller is responsible for data intake as well as receiving files for processing.
+	 * @param $scope - The scope of the controller.
+	 * @param userStatsAppService - Singleton service responsible for manipulating data.
+	 * @param $location - Service responsible for chaning the route once data is processed.
+	 * @param $uibModal - Service responsible for displaying blocking modal while charts are being built.
+	 */
 	function uploadController($scope, userStatsAppService, $location, $uibModal){
 		var _this = this;
 	 	this.vm = {
@@ -10,6 +17,11 @@
 	 		processingFile : false
 	 	}		
 
+	 	/**
+	 	* Checks to make sure text entered into the textarea is valid json for processing. 
+	 	* Only checks that text is in json format, doesn't check to make sure it is in the format
+	 	* needed for the user stats app.
+	 	**/
 		this.change = function(){
 			 try {
         			_this.vm.actualJson = JSON.parse(_this.vm.jsonInput);
@@ -19,6 +31,9 @@
     		};
 		}
 
+		/**
+		* When a file is selected, this function blocks the ui while the file is read into the textarea.
+		**/
 		this.processFile = function($event){
 				$scope.$apply(function(){
 					_this.vm.processingFile = true;
@@ -39,6 +54,9 @@
 			}
 		}
 
+		/**
+		* Displays a modal while charts are being generated.
+		**/
 		this.processJson = function(){
 			$uibModal.open({
                 templateUrl: '/partials/processing',
