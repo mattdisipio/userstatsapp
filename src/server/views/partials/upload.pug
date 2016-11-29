@@ -1,16 +1,21 @@
 block content
-	div.row.form-group
-		div.col-lg-12
-			button.btn.btn-md.btn-success.pull-right(ng-disabled="!uploadCtrl.vm.isValidJson", ng-click="uploadCtrl.processJson()")
-				| Process Data
-			form(enctype="multipart/form-data", ng-file-select="uploadCtrl.selectFIle($file)")
-				input(type="file", name="displayImage", custom-on-change="uploadCtrl.processFile", accept=".json")
-	div.row
-		div.col-lg-6.col-md-6.col-sm-6.form-group( ng-class="{ 'has-error' : !uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput, 'has-success' : uploadCtrl.vm.isValidJson }")
-			textarea.form-control(ng-model="uploadCtrl.vm.jsonInput", required, ng-change="uploadCtrl.change()")
-			div(style="position:absolute;top:0;right:20px;", ng-if="!uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput")
-				em.json-warning
-					| Please enter valid json
-		div.col-lg-6.col-md-6.col-sm-6.form-group
-			div.well.well-md 
-				pre {{ uploadCtrl.vm.actualJson | json}}
+	fieldset(ng-disabled="uploadCtrl.vm.processingFile")
+		div.row.form-group
+			div.col-lg-12
+				button.btn.btn-md.btn-success.pull-right(ng-disabled="!uploadCtrl.vm.isValidJson", ng-click="uploadCtrl.processJson()")
+					| Process Data
+				form(enctype="multipart/form-data", ng-file-select="uploadCtrl.selectFIle($file)")
+					input(type="file", name="displayImage", custom-on-change="uploadCtrl.processFile", accept=".json")
+		div.row
+			div.col-lg-6.col-md-6.col-sm-6.form-group( ng-class="{ 'has-error' : !uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput, 'has-success' : uploadCtrl.vm.isValidJson }")
+				textarea.form-control(ng-model="uploadCtrl.vm.jsonInput", required, ng-change="uploadCtrl.change()")
+				div(style="position:absolute;top:0;right:20px;", ng-if="!uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput")
+					em.json-warning
+						| Please enter valid json
+			div.col-lg-6.col-md-6.col-sm-6.form-group
+				div.well.well-md 
+					pre {{ uploadCtrl.vm.actualJson | json}}
+		div.row(ng-if="uploadCtrl.vm.processingFile")
+			div.col-lg-6.pull-left
+				div.alert.alert-info
+					p <strong> Processing </strong> Processing File...

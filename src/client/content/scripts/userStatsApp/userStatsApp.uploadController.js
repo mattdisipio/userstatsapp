@@ -6,7 +6,8 @@
 	 	this.vm = {
 	 		jsonInput : '',
 	 		actualJson : '',
-	 		isValidJson : false
+	 		isValidJson : false,
+	 		processingFile : false
 	 	}		
 
 		this.change = function(){
@@ -19,13 +20,18 @@
 		}
 
 		this.processFile = function($event){
+				$scope.$apply(function(){
+					_this.vm.processingFile = true;
+
+				})
 			var file = $event.target.files[0];
 			if(file){
-			   	var r = new FileReader();
+				var r = new FileReader();
 				r.onload = function(e) {
 					$scope.$apply(function(){
 				  		_this.vm.jsonInput = e.target.result;
 				  		_this.change();
+				  		_this.vm.processingFile = false;
 					})
 				};
 
