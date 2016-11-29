@@ -34,24 +34,28 @@
 			statesDataObject : []
 		}
 
+		var getPercentageValue = function(numerator, denominator){
+			return Math.round((numerator/denominator) * 100);
+		}
+
 		var generateDataPoints = function(){
 			var deferred = $q.defer();
-			var numFemale = Math.round((_this.vm.numFemale / _this.vm.totalPopulation) * 100);
+			var numFemale = getPercentageValue(_this.vm.numFemale, _this.vm.totalPopulation);
 			_this.vm.genderDataPoints = [numFemale, 100 - numFemale]
 
-			var firstNameStartsWith = Math.round((_this.vm.firstNameAToM / _this.vm.totalPopulation) * 100);
+			var firstNameStartsWith = getPercentageValue(_this.vm.firstNameAToM, _this.vm.totalPopulation);
 			_this.vm.firstNameDataPoints = [firstNameStartsWith, (100 - firstNameStartsWith)]
 
-			var lastNameStartsWith = Math.round((_this.vm.lastNameAToM / _this.vm.totalPopulation) * 100)
+			var lastNameStartsWith = getPercentageValue(_this.vm.lastNameAToM, _this.vm.totalPopulation);
 			_this.vm.lastNameDataPoints = [lastNameStartsWith, (100 - lastNameStartsWith)]
 
 			_this.vm.ageGroupDataPoints = [
-			((_this.vm.ageGroupStats.zeroToTwenty / _this.vm.totalPopulation) * 100), 
-			((_this.vm.ageGroupStats.twentyOneToForty/_this.vm.totalPopulation) * 100),
-			((_this.vm.ageGroupStats.fortyOneToSixty / _this.vm.totalPopulation) * 100) ,
-			((_this.vm.ageGroupStats.sixtyOneToEighty / _this.vm.totalPopulation) * 100),
-			((_this.vm.ageGroupStats.eightyOneToOneHundred / _this.vm.totalPopulation) * 100), 
-			((_this.vm.ageGroupStats.oneHundredPlus / _this.vm.totalPopulation) * 100)]
+			(getPercentageValue(_this.vm.ageGroupStats.zeroToTwenty, _this.vm.totalPopulation)), 
+			(getPercentageValue(_this.vm.ageGroupStats.twentyOneToForty, _this.vm.totalPopulation)),
+			(getPercentageValue(_this.vm.ageGroupStats.fortyOneToSixty, _this.vm.totalPopulation)),
+			(getPercentageValue(_this.vm.ageGroupStats.sixtyOneToEighty, _this.vm.totalPopulation)),
+			(getPercentageValue(_this.vm.ageGroupStats.eightyOneToOneHundred, _this.vm.totalPopulation)), 
+			(getPercentageValue(_this.vm.ageGroupStats.oneHundredPlus, _this.vm.totalPopulation))]
 
 			var topPopulationStates = _this.vm.statesDataObject.slice(0, 10);
 
@@ -60,8 +64,8 @@
 			})
 
 			topPopulationStates.forEach(function(element){
-				var percentageOfTotalPopulation = Math.round((element.population/_this.vm.totalPopulation) * 100);
-				var percentageOfFemales = Math.round((element.females/element.population) * 100);
+				var percentageOfTotalPopulation = getPercentageValue(element.population, _this.vm.totalPopulation);
+				var percentageOfFemales = getPercentageValue(element.females, element.population);
 				var percentageOfMales = 100 - (percentageOfFemales);
 
 				_this.vm.populationByStateDataPoints[0].push(percentageOfTotalPopulation);
