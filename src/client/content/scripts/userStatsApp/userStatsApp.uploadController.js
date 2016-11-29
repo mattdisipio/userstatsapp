@@ -8,7 +8,7 @@
 	 * @param $location - Service responsible for chaning the route once data is processed.
 	 * @param $uibModal - Service responsible for displaying blocking modal while charts are being built.
 	 */
-	function uploadController($scope, userStatsAppService, $location, $uibModal){
+	function uploadController($scope, userStatsAppService, $location, $uibModal, toaster){
 		var _this = this;
 	 	this.vm = {
 	 		jsonInput : '',
@@ -58,6 +58,10 @@
 		* Displays a modal while charts are being generated.
 		**/
 		this.processJson = function(){
+			if(!_this.vm.actualJson.results || _this.vm.actualJson.results.length === 0 || !_this.vm.actualJson.results[0].firstName || !_this.vm.actualJson[0].lastName || !_this.vm.actualJson[0].dob || !_this.vm.actualJson[0].location.state){
+				toaster.pop('error', 'Can\'t Process Data. Most Likely Due To Malformed Json');
+				return;
+			}
 			$uibModal.open({
                 templateUrl: '/partials/processing',
                 backdrop: 'static',
@@ -76,5 +80,5 @@
 	}
 
 	angular.module('userStatsApp.uploadController', [])
-	.controller('uploadController', ['$scope', 'userStatsAppService', '$location', '$uibModal', uploadController])
+	.controller('uploadController', ['$scope', 'userStatsAppService', '$location', '$uibModal', 'toaster', uploadController])
 })();
