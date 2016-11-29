@@ -9,6 +9,8 @@
 	function processingController($uibModalInstance, userStatsAppService, data){
 		userStatsAppService.processJsonData(data).then(function(){
 			$uibModalInstance.close();
+		}, function(err){
+			$uibModalInstance.dismiss(err);
 		});
 	}
 

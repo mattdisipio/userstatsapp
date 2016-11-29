@@ -115,22 +115,55 @@
 		}
 
 		/**
+		* Resets all data on the vm.
+		**/
+		var resetModel = function(){
+			_this.vm.numFemale = 0;
+			_this.vm.firstNameAToM = 0;
+			_this.vm.lastNameAToM = 0;
+			_this.vm.totalPopulation = 0;
+			_this.vm.genderDataPoints.length = 0;
+			_this.vm.firstNameDataPoints.lenth = 0;
+			_this.vm.lastNameDataPoints.length = 0;
+			_this.vm.populationByStateLabels.length = 0;
+			_this.vm.populationByStateDataPoints = [[], [], []];
+			_this.vm.ageGroupStats.zeroToTwenty = 0;
+			_this.vm.ageGroupStats.twentyOneToForty = 0;
+			_this.vm.ageGroupStats.fortyOneToSixty = 0;
+			_this.vm.ageGroupStats.sixtyOneToEighty = 0;
+			_this.vm.ageGroupStats.eightyOneToOneHundred = 0;
+			_this.vm.ageGroupStats.oneHundredPlus = 0;
+			_this.vm.statesDataObject = [];			
+		}
+
+		/**
 		* Returns a promise that when fulfilled has organized the input data into meaningful chart data based on requirements.
 		**/
 		this.processJsonData = function(jsonData){
 			var deferred = $q.defer();
-
+			resetModel();
 			jsonData.results.forEach(function(element){
+				if(!element.name.first){
+					return deferred.reject({message : 'Missing first name.'});
+				}
+
 				if(startsWithAThroughM.test(element.name.first)){
 					_this.vm.firstNameAToM ++;
+				}
+
+				if(!element.name.last){
+					return deferred.reject({message : 'Missing last name.'});
 				}
 
 				if(startsWithAThroughM.test(element.name.last)){
 					_this.vm.lastNameAToM ++;
 				}
 
-				var temp = _this.vm.statesDataObject.filter(getStateObject(element.location.state))
-				if(!temp.length > 0){
+				var preExistingStateObj = _this.vm.statesDataObject.filter(getStateObject(element.location.state))
+				if(!preExistingStateObj.length > 0){
+					if(!element.location.state){
+						return deferred.reject({message : 'Missing state.'});
+					}
 					var stateObj = {
 						females : 0,
 						population : 0,
@@ -141,6 +174,11 @@
 				}
 
 				var currentStateObj = _this.vm.statesDataObject.filter(getStateObject(element.location.state))[0];
+
+				if(!element.gender){
+					return deferred.reject({message : 'Missing gender.'});
+				}
+
 				if(element.gender === 'female'){
 					currentStateObj.females ++;
 					_this.vm.numFemale ++;
@@ -148,8 +186,11 @@
 
 				currentStateObj.population ++;
 
-				var age = calculateAge(element.dob);
+				if(!element.dob){
+					return deferred.reject({message : 'Missing birthday.'});
+				}
 
+				var age = calculateAge(element.dob);
 				if(age <= 20){
 						_this.vm.ageGroupStats.zeroToTwenty ++;
 					}

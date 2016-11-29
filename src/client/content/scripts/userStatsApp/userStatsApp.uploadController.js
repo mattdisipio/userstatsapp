@@ -74,6 +74,8 @@
             }).result.then(function(){
 				$location.path('/results');
 
+            }, function(err){
+            	toaster.pop('error', 'Something Went Wrong!', 'Most likely due to bad json. Message: ' + err.message);
             });			
 		}
 
