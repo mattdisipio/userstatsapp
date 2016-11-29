@@ -1,6 +1,65 @@
 block content
 	div.row
-		h4 What Is This?
+		div.col-lg-12
+			h4 What Is This?
 	div.row
-		| This app was written as a project exercise during a job interview. It is meant to process data retrieved from #[a(href='http://randomuser.me', target='_blank') Random User Generator]
-	
+		div.col-lg-12
+			| This app was written as a project exercise during a job interview. It is meant to process data retrieved from #[a(href='http://randomuser.me', target='_blank') Random User Generator]. 
+			br
+			br
+		div.col-lg-12
+			| The data generated from Random User Generator is parsed and displayed in 5 different graphs. The graphs and how the data points are calculated are listed below:
+			br
+			br
+			ol
+				li 
+					strong Percentage Female Versus Male 
+					p <small> To calculate the female percent we keep track of how many people have <code>gender === "female"</code> on every iteration of a person in the dataset. We then divide this number by the total population to get the % who are female. We subtract this number from 100 to get the number of males in the dataset. </small>
+				li
+					strong Percentage of First Names That Start With A-M Versus N-Z
+					p <small> To calculate this percentage, we use regex to check that a persons first name starts wiht A-M on every iteration of a person in the data set. If it does, we increase a counter. Once done iterating, we divide by the total population to gt the % whose first name start with A-M. This number is subtracted from 100 to get those first names starting with N-Z. </small>
+				li
+					strong Percentage of Last Names That Start With A-M Versus N-Z
+					p <small> Exact same methodology as above, only with last names. </small>
+				li
+					strong Percentage of People In Each State, Percentage of Females In Each State and Percentage of Males In Each State, Up To The Top 10 Most Populous States
+					p <small> In order to calculate these data points we first maintain an associative array whose "key" is the state name of each person in the dataset. On every iteration we check to see if there is a corresponding entry in the array. If there isn't, we make one, defaulting the count of females and state-level population to 0 as these are the values we care about. We then pull the state object out of the array and increase the number of females if the person is a female as well as the total population for that state. When we are done iterating through the dataset, we sort the array in descneding population and pull of the top ten state objects, which are our top ten population counts. Using the data within these state objects, we calculate the percent of females by taking that states female count and dividing it by that states population. We subtract this number from 100 to arrive at the male population percent for that state. We calculate the percentage of the total population this state counts for by dividing that states population by the total population. We display all 3 of these data points in a bar chart since they are all state level statistics. </small>
+				li
+					strong Percentage of People in the Following Age Ranges: 0-20, 21-40, 41-60, 61-80, 81-100, 100+
+					p <small> While iterating through the data set, we take a persons date of birth and calculate their age. Depending on what range they fall into, we increase the count for that range. Once done iterating we divide each set by the total population to get the percentage that age group counts for. </small>
+	div.row
+		div.col-lg-12
+			h4 Project Setup #[a(href='https://gist.github.com/lancejpollard/1398757#4-namespaces-inside-app', target='_blank') based off of setup here]
+		div.col-lg-12
+			userstatsapp
+				p <strong>gulp</strong>
+					p In the gulp folder lives all our gulp tasks for production and development environments. Run <code>gulp task</code> for any task availabe to run it on it's own.
+				p <strong>spec</strong>
+					p In the spec folder lives all our unit tests. We have basic unit tests setup for the server as well as a place for angular unit tests. I did not have time to write these tests for this project, but this is where they'd live.
+				p <strong>src</strong>
+					p In the src folder lives the code for our app, both server and client side. 
+	div.row
+		div.col-lg-12
+			h4 Tech Used
+		div.col-lg-12
+			ul
+				li #[a(href='https://nodejs.org/en/', target='_blank') Node]
+				p Used for the server portion of this project. As far as style guide goes, I did not include an explicit guide because there is so little node, most of it is basic boilerplate code. I did use the #[a(href='https://gist.github.com/lancejpollard/1398757#4-namespaces-inside-app', target='_blank') project setup mentioned here] when setting up my folder structure.
+			ul
+				li #[a(href='http://gulpjs.com/', target='_blank') Gulp], #[a(href='https://browsersync.io/', target='_blank') Browsersync], #[a(href='https://nodemon.io/', target='_blank') nodemon], #[a(href='https://www.npmjs.com/package/jshint', target='_blank') JSHint], #[a(href='https://karma-runner.github.io/1.0/index.html', target='_blank') Karma]
+				p Gulp is a workflow automation framework that makes it easy to automate certain tasks in a workflow. Browsersync is used for synchronized browser testing. Nodemon monitors your node code and reloads a local website to reflect those changes. JSHint is a static analysis tool for javascript that helps you write cleaner js programs without worrying about language quirks. Karma is a testrunner for javascript code. I mentioned these technologies becaue using gulp, we can run them all before deploying a website. That means js checks on every deploy and unit tests on every deploy. Setting these up in gulp are a breeze and their benefits are immediate.
+			ul
+				li #[a(href='https://pugjs.org/api/getting-started.html', target='_blank') PugJS]
+				p Pug is a template engine for node that compiles down to html. It is influenced by Haml and makes it easier for devs to develop html applications given that you don't need closing tags, it's a lot cleaner and you aren't typing as much.
+			ul
+				li #[a(href='https://angularjs.org/', target='_blank') AngularJS]
+				p Angular is used for everything client side. I went with angular 1.6 because I am more comfortable with it and didn't want this project to take a long time. I used  #[a(href='https://github.com/johnpapa/angular-styleguide/tree/master/a1', target='_blank') John Papa's Style Guide] because I have been using it for a long time and it's considered the standard in the angular community.
+			ul
+				li #[a(href='http://getbootstrap.com/', target='_blank') Bootstrap]
+				p Bootstrap is a front-end framework that makes clean, responsive web design very easy and fast.
+			ul
+				li #[a(href='https://angular-ui.github.io/bootstrap/', target='_blank') UI Bootstrap]
+				p UI Bootstrap is a set of bootstrap components written in pure AngularJS.
+			ul
+				li #[a(href='https://jtblin.github.io/angular-chart.js/', target='_blank') Angular Chart]
+				p Angular Chart is a responsive charting library that is built on top of Chart Js - one of my favorite charting libraries.
