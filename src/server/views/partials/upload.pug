@@ -4,7 +4,7 @@ block content
 			div.col-lg-12
 				button.btn.btn-md.btn-success.pull-right(ng-disabled="!uploadCtrl.vm.isValidJson", ng-click="uploadCtrl.processJson()")
 					| Process Data
-				label(for="file-upload") Choose File for Processing: 
+				label(for="file-upload", tooltip-placement="left" uib-tooltip="Select JSON file to process user stats for. Refer to description to generate file.") Choose File for Processing: 
 				input(type="file", name="displayImage", custom-on-change="uploadCtrl.processFile", accept=".json", id="file-upload")
 		div.row
 			div.col-lg-6.col-md-6.col-sm-6.form-group( ng-class="{ 'has-error' : !uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput, 'has-success' : uploadCtrl.vm.isValidJson }")
