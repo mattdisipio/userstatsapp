@@ -5,7 +5,11 @@
 	 * Controller used mainly as a holder for the graph data
 	 * @param userStatsAppService - Singleton service responsible for manipulating data.
 	 */
-	function resultsController(userStatsAppService){
+	function resultsController(userStatsAppService, $location, toaster){
+		if(userStatsAppService.vm.genderDataPoints.length === 0){
+			toaster.pop('info', 'No Data!', 'No data to render for charts. Please enter valid data.')
+			$location.path('/');
+		}
 		this.vm = {
 			genderLabels : ['Female', 'Male'],
 			genderColors :  ['#f26565' , '#6e6cfc'],
@@ -24,5 +28,5 @@
 	}
 
 	angular.module('userStatsApp.resultsController', [])
-	.controller('resultsController', ['userStatsAppService', resultsController])
+	.controller('resultsController', ['userStatsAppService', '$location', 'toaster', resultsController])
 })();
