@@ -1,5 +1,5 @@
 global.rootRequire = function(name) {
-    return require('../../../src/server/' + '\\' + name);
+    return require('../../../src/server/' + '/' + name);
 };
 
 var proxyquire = require('proxyquire');
