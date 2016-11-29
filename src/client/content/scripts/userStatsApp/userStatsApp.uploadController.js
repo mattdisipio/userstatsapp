@@ -40,16 +40,19 @@
 		}
 
 		this.processJson = function(){
-			/** $uibModal.open({
+			$uibModal.open({
                 templateUrl: '/partials/processing',
-                controller: '',
-                backdrop: 'static'
-            });
-            **/
-
-			userStatsAppService.processJsonData(_this.vm.actualJson).then(function(){
+                backdrop: 'static',
+                resolve : {
+                	data : function(){
+                		return _this.vm.actualJson;
+                	}
+                },
+                controller : 'processingController'
+            }).result.then(function(){
 				$location.path('/results');
-			});
+
+            });			
 		}
 
 	}
