@@ -2,7 +2,7 @@
 	'use strict';
 
 	function navbarController($scope, $location){
-	 	$scope.isActive = function (viewLocation) { 
+	 	this.isActive = function (viewLocation) { 
         	return viewLocation === $location.path();
     	};
 	}
