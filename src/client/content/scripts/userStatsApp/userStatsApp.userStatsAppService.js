@@ -9,7 +9,9 @@
 	 * @param $q - Promise object. Used to make sure all processing is done before advancing.
 	 */
 	function userStatsAppService($q){
+		/*jshint validthis:true */
 		var _this = this;
+
 		this.vm = {
 			numFemale : 0,
 			firstNameAToM : 0,
@@ -29,7 +31,7 @@
 				oneHundredPlus : 0
 			},
 			statesDataObject : []
-		}
+		};
 
 		/**
 		* Calculates a users age given a date of birth.
@@ -39,28 +41,29 @@
 		    var ageDifMs = Date.now() - birthday.getTime();
 		    var ageDate = new Date(ageDifMs); 
 		    return Math.abs(ageDate.getUTCFullYear() - 1970);
-		}
+		};
 
 		/**
 		* Given a numerator and a denomiantor, return a whole number percent.
 		**/
 		var getPercentageValue = function(numerator, denominator){
 			return Math.round((numerator/denominator) * 100);
-		}
+		};
 
 		/**
 		* Once the json data is massaged, this function uses that data to generate data points for our charts.
 		**/
 		var generateDataPoints = function(){
 			var deferred = $q.defer();
+
 			var numFemale = getPercentageValue(_this.vm.numFemale, _this.vm.totalPopulation);
-			_this.vm.genderDataPoints = [numFemale, 100 - numFemale]
+			_this.vm.genderDataPoints = [numFemale, 100 - numFemale];
 
 			var firstNameStartsWith = getPercentageValue(_this.vm.firstNameAToM, _this.vm.totalPopulation);
-			_this.vm.firstNameDataPoints = [firstNameStartsWith, (100 - firstNameStartsWith)]
+			_this.vm.firstNameDataPoints = [firstNameStartsWith, (100 - firstNameStartsWith)];
 
 			var lastNameStartsWith = getPercentageValue(_this.vm.lastNameAToM, _this.vm.totalPopulation);
-			_this.vm.lastNameDataPoints = [lastNameStartsWith, (100 - lastNameStartsWith)]
+			_this.vm.lastNameDataPoints = [lastNameStartsWith, (100 - lastNameStartsWith)];
 
 			_this.vm.ageGroupDataPoints = [
 			(getPercentageValue(_this.vm.ageGroupStats.zeroToTwenty, _this.vm.totalPopulation)), 
@@ -68,13 +71,13 @@
 			(getPercentageValue(_this.vm.ageGroupStats.fortyOneToSixty, _this.vm.totalPopulation)),
 			(getPercentageValue(_this.vm.ageGroupStats.sixtyOneToEighty, _this.vm.totalPopulation)),
 			(getPercentageValue(_this.vm.ageGroupStats.eightyOneToOneHundred, _this.vm.totalPopulation)), 
-			(getPercentageValue(_this.vm.ageGroupStats.oneHundredPlus, _this.vm.totalPopulation))]
+			(getPercentageValue(_this.vm.ageGroupStats.oneHundredPlus, _this.vm.totalPopulation))];
 
 			var topPopulationStates = _this.vm.statesDataObject.slice(0, 10);
 
 			_this.vm.populationByStateLabels = topPopulationStates.map(function(element){
 				return element.stateName;
-			})
+			});
 
 			topPopulationStates.forEach(function(element){
 				var percentageOfTotalPopulation = getPercentageValue(element.population, _this.vm.totalPopulation);
@@ -84,14 +87,14 @@
 				_this.vm.populationByStateDataPoints[0].push(percentageOfTotalPopulation);
 				_this.vm.populationByStateDataPoints[1].push(percentageOfMales);
 				_this.vm.populationByStateDataPoints[2].push(percentageOfFemales);
-			})
+			});
 
 			_this.vm.statesDataObject.length = 0;
 
 			deferred.resolve();
 
 			return deferred.promise;
-		}
+		};
 
 		/**
 		*  	Custom compare function used to sort our states array into descending population order.
@@ -103,7 +106,7 @@
 			  if (stateOne.population > stateTwo.population)
 			    return -1;
 			  return 0;
-			}
+		};
 
 		/**
 		*  Returns a matching object from the stateObj array, matching on name.
@@ -111,8 +114,8 @@
 		var getStateObject = function(stateName){
 			return function(element){
 				return element.stateName === stateName;
-			}
-		}
+			};
+		};
 
 		/**
 		* Resets all data on the vm.
@@ -134,13 +137,14 @@
 			_this.vm.ageGroupStats.eightyOneToOneHundred = 0;
 			_this.vm.ageGroupStats.oneHundredPlus = 0;
 			_this.vm.statesDataObject = [];			
-		}
+		};
 
 		/**
 		* Returns a promise that when fulfilled has organized the input data into meaningful chart data based on requirements.
 		**/
 		this.processJsonData = function(jsonData){
 			var deferred = $q.defer();
+			
 			resetModel();
 			jsonData.results.forEach(function(element){
 				if(!element.name.first){
@@ -159,7 +163,7 @@
 					_this.vm.lastNameAToM ++;
 				}
 
-				var preExistingStateObj = _this.vm.statesDataObject.filter(getStateObject(element.location.state))
+				var preExistingStateObj = _this.vm.statesDataObject.filter(getStateObject(element.location.state));
 				if(!preExistingStateObj.length > 0){
 					if(!element.location.state){
 						return deferred.reject({message : 'Missing state.'});
@@ -168,7 +172,7 @@
 						females : 0,
 						population : 0,
 						stateName : element.location.state
-					}
+					};
 
 					_this.vm.statesDataObject.push(stateObj);
 				}
@@ -211,18 +215,18 @@
 				}
 
 				_this.vm.totalPopulation ++;
-			})
+			});
 
-			_this.vm.statesDataObject.sort(compare)
+			_this.vm.statesDataObject.sort(compare);
 
 			generateDataPoints().then(function(){
 				deferred.resolve();
 			});			
 
 			return deferred.promise;
-		}
+		};
 	}
 
 	angular.module('userStatsApp.userStatsAppService', [])
-	.service('userStatsAppService', ['$q', userStatsAppService])
+	.service('userStatsAppService', ['$q', userStatsAppService]);
 })();

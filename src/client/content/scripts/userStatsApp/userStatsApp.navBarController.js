@@ -8,5 +8,5 @@
 	}
 
 	angular.module('userStatsApp.navbarController', [])
-	.controller('navbarController', ['$scope', '$location', navbarController])
+	.controller('navbarController', ['$scope', '$location', navbarController]);
 })();

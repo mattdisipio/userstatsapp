@@ -9,13 +9,16 @@
 	 * @param $uibModal - Service responsible for displaying blocking modal while charts are being built.
 	 */
 	function uploadController($scope, userStatsAppService, $location, $uibModal, toaster){
+		/*jshint validthis:true */
 		var _this = this;
+
+		/*jshint validthis:true */
 	 	this.vm = {
 	 		jsonInput : '',
 	 		actualJson : '',
 	 		isValidJson : false,
 	 		processingFile : false
-	 	}		
+	 	};	
 
 	 	/**
 	 	* Checks to make sure text entered into the textarea is valid json for processing. 
@@ -31,18 +34,19 @@
     			} catch(exp) {
     				_this.vm.isValidJson = false;
     				_this.vm.actualJson = '';
-    		};
-		}
+    		}
+		};
 
 		/**
 		* When a file is selected, this function blocks the ui while the file is read into the textarea.
 		**/
 		this.processFile = function($event){
-				$scope.$apply(function(){
-					_this.vm.processingFile = true;
+			$scope.$apply(function(){
+				_this.vm.processingFile = true;
+			});
 
-				})
 			var file = $event.target.files[0];
+
 			if(file){
 				var r = new FileReader();
 				r.onload = function(e) {
@@ -50,12 +54,12 @@
 				  		_this.vm.jsonInput = e.target.result;
 				  		_this.change();
 				  		_this.vm.processingFile = false;
-					})
+					});
 				};
 
 	          	r.readAsText(file);
 			}
-		}
+		};
 
 		/**
 		* Displays a modal while charts are being generated.
@@ -76,10 +80,10 @@
             }, function(err){
             	toaster.pop('error', 'Something Went Wrong!', 'Most likely due to bad json. Message: ' + err.message);
             });			
-		}
+		};
 
 	}
 
 	angular.module('userStatsApp.uploadController', [])
-	.controller('uploadController', ['$scope', 'userStatsAppService', '$location', '$uibModal', 'toaster', uploadController])
+	.controller('uploadController', ['$scope', 'userStatsAppService', '$location', '$uibModal', 'toaster', uploadController]);
 })();

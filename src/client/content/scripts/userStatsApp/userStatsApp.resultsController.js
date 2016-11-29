@@ -7,9 +7,11 @@
 	 */
 	function resultsController(userStatsAppService, $location, toaster){
 		if(userStatsAppService.vm.genderDataPoints.length === 0){
-			toaster.pop('info', 'No Data!', 'No data to render for charts. Please enter valid data.')
+			toaster.pop('info', 'No Data!', 'No data to render for charts. Please enter valid data.');
 			$location.path('/');
 		}
+
+		/*jshint validthis:true */
 		this.vm = {
 			genderLabels : ['Female', 'Male'],
 			genderColors :  ['#f26565' , '#6e6cfc'],
@@ -24,9 +26,9 @@
 			populationByStateDataPoints : userStatsAppService.vm.populationByStateDataPoints,			
 			barSeries : ['Percentage Of People', 'Percentage Male', 'Percentage Female']
 
-		}
+		};
 	}
 
 	angular.module('userStatsApp.resultsController', [])
-	.controller('resultsController', ['userStatsAppService', '$location', 'toaster', resultsController])
+	.controller('resultsController', ['userStatsAppService', '$location', 'toaster', resultsController]);
 })();
