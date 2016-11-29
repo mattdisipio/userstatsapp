@@ -10,10 +10,17 @@
 			controller : 'uploadController',
 			controllerAs : 'uploadCtrl'
 		})
+		.when('/readme', {
+			templateUrl : 'partials/readme',
+			controller : ''
+		})
 		.when('/results', {
 			templateUrl : 'partials/results',
 			controller : 'resultsController',
 			controllerAs : 'resultsCtrl'
 		})
-	})
+		 .otherwise({
+            redirectTo: '/'
+        });
+	});
 })();
