@@ -4,8 +4,8 @@ block content
 			div.col-lg-12
 				button.btn.btn-md.btn-success.pull-right(ng-disabled="!uploadCtrl.vm.isValidJson", ng-click="uploadCtrl.processJson()")
 					| Process Data
-				form(enctype="multipart/form-data", ng-file-select="uploadCtrl.selectFIle($file)")
-					input(type="file", name="displayImage", custom-on-change="uploadCtrl.processFile", accept=".json")
+				label(for="file-upload") Choose File for Processing: 
+				input(type="file", name="displayImage", custom-on-change="uploadCtrl.processFile", accept=".json", id="file-upload")
 		div.row
 			div.col-lg-6.col-md-6.col-sm-6.form-group( ng-class="{ 'has-error' : !uploadCtrl.vm.isValidJson && uploadCtrl.vm.jsonInput, 'has-success' : uploadCtrl.vm.isValidJson }")
 				textarea.form-control(ng-model="uploadCtrl.vm.jsonInput", ng-model-options="{ debounce: 500 }", required, ng-change="uploadCtrl.change()", autocomplete="off", autocorrect="off", spellcheck="false")
