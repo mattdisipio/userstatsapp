@@ -117,6 +117,9 @@
 			};
 		};
 
+		/**
+		* Sets age data for a given date of birth
+		**/
 		var setAgeData = function(dob){
 			var age = calculateAge(dob);
 			if(age <= 20){
